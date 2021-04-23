@@ -3,12 +3,16 @@ var searchBtn = document.getElementById("search-btn");
 searchBtn.onclick = function(){
     // add if to eliminate bad searches or blank searches in input
     // add if to eliminate searches without a poster listed?
+    // add function for if enter is pressed while in input field?
 
     // movie title input
     var movieTitle = document.getElementById("movie-title-input").value.trim();
 
     // update with + instead of space
     var searchByTitle = movieTitle.replace(/\s/g, "+");
+
+    // array for search results
+    var searchResultsArray = [];
 
     // fetch from omdb (general search for multiple responses)
     fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
@@ -23,9 +27,6 @@ searchBtn.onclick = function(){
 
             // clear current search results from container
             searchResultsContainer.innerHTML = "";
-
-            // array for search results
-            var searchResultsArray = [];
 
             // add an if here for response.response = true
 
@@ -44,30 +45,34 @@ searchBtn.onclick = function(){
 
             // add objects in search results array to results container
             for(i=0; i < searchResultsArray.length; i++){
-                // search result div
-                var searchResult = document.createElement("div");
-                searchResult.id = "search-result-" + [i];
-                searchResult.className = "column"
+                if(searchResultsArray[i].posterURL === "N/A"){
+                    console.log("search result " + [i] + " did not have a poster")
+                } else {
+                    // search result div
+                    var searchResult = document.createElement("div");
+                    searchResult.id = "search-result-" + [i];
+                    searchResult.className = "column"
 
-                // title eleement h4
-                var searchResultTile = document.createElement("h4");
-                searchResultTile.textContent = searchResultsArray[i].filmTitle;
+                    // title eleement h4
+                    var searchResultTile = document.createElement("h4");
+                    searchResultTile.textContent = searchResultsArray[i].filmTitle;
 
-                // year element p
-                var searchResultYear = document.createElement("h4");
-                searchResultYear.textContent = searchResultsArray[i].releaseDate;
+                    // year element p
+                    var searchResultYear = document.createElement("h4");
+                    searchResultYear.textContent = searchResultsArray[i].releaseDate;
 
-                // poster element img
-                var searchResultPoster = document.createElement("img");
-                searchResultPoster.src = searchResultsArray[i].posterURL;
-                
-                // append to search result
-                searchResult.append(searchResultPoster);
-                searchResult.append(searchResultTile);
-                searchResult.append(searchResultYear);
+                    // poster element img
+                    var searchResultPoster = document.createElement("img");
+                    searchResultPoster.src = searchResultsArray[i].posterURL;
+                    
+                    // append to search result
+                    searchResult.append(searchResultPoster);
+                    searchResult.append(searchResultTile);
+                    searchResult.append(searchResultYear);
 
-                // append to container
-                searchResultsContainer.append(searchResult);
+                    // append to container
+                    searchResultsContainer.append(searchResult);
+                };
             }
             // clear search input
             document.getElementById("movie-title-input").value = "";
