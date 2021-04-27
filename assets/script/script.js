@@ -1,83 +1,110 @@
+// search button
 var searchBtn = document.getElementById("search-btn");
 
-searchBtn.onclick = function(){
-    // add if to eliminate bad searches or blank searches in input
-    // add if to eliminate searches without a poster listed?
-    // add function for if enter is pressed while in input field?
-
-    // movie title input
+// movie search input on click
+searchBtn.onclick = function () {
     var movieTitle = document.getElementById("movie-title-input").value.trim();
-
-    // update with + instead of space
     var searchByTitle = movieTitle.replace(/\s/g, "+");
 
-    // array for search results
-    var searchResultsArray = [];
+    // fetch results
+    fetchSearchResults(searchByTitle);
+};
 
-    // fetch from omdb (general search for multiple responses)
+// search results array (empty)
+var searchResultsArray = [];
+
+// find results array (empty)
+var findResultsArray = [];
+
+// search results container
+var searchResultsContainer = document.getElementById("search-results-container");
+
+// function to fetch results
+var fetchSearchResults = function (searchByTitle) {
     fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
-        // response
-        .then(function(response){
+        .then(function (response) {
             return response.json()
         })
-        // then append search results
-        .then(function(response){            
-            // container to append to
-            var searchResultsContainer = document.getElementById("search-results-container");
-
-            // clear current search results from container
+        .then(function (response) {
+            // clear current search results
             searchResultsContainer.innerHTML = "";
 
-            // add an if here for response.response = true
-
-            // loop through search results and add to array
-            for(i=0; i < response.Search.length; i++){
-                var newSearchResultObj = {
-                    i: [i],
-                    filmTitle: response.Search[i].Title,
-                    releaseDate: response.Search[i].Year,
-                    posterURL: response.Search[i].Poster,
-                }
-                searchResultsArray.push(newSearchResultObj);
-            }
-            
-            console.log(searchResultsArray);
-
-            // add objects in search results array to results container
-            for(i=0; i < searchResultsArray.length; i++){
-                if(searchResultsArray[i].posterURL === "N/A"){
-                    console.log("search result " + [i] + " did not have a poster")
-                } else {
-                    // search result div
-                    var searchResult = document.createElement("div");
-                    searchResult.id = "search-result-" + [i];
-                    searchResult.className = "column"
-
-                    // title eleement h4
-                    var searchResultTile = document.createElement("h4");
-                    searchResultTile.textContent = searchResultsArray[i].filmTitle;
-
-                    // year element p
-                    var searchResultYear = document.createElement("h4");
-                    searchResultYear.textContent = searchResultsArray[i].releaseDate;
-
-                    // poster element img
-                    var searchResultPoster = document.createElement("img");
-                    searchResultPoster.src = searchResultsArray[i].posterURL;
-                    
-                    // append to search result
-                    searchResult.append(searchResultPoster);
-                    searchResult.append(searchResultTile);
-                    searchResult.append(searchResultYear);
-
-                    // append to container
-                    searchResultsContainer.append(searchResult);
-                };
-            }
-            // clear search input
-            document.getElementById("movie-title-input").value = "";
-
-            // clear search results array and erase results from container
-            searchResultsArray = [];
+            // loop through search results and add titles to search results array
+            for (i = 0; i < response.Search.length; i++) {
+                var newSearchResultTitle = response.Search[i].Title;
+                searchResultsArray.push(newSearchResultTitle);
+            };
         })
-    }
+        // nested fetch using title search for  more detail for each search result
+        .then(function(response){
+            // for each title in search results array from first search
+            for(i = 0; i < searchResultsArray.length; i++){
+                fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=" + searchResultsArray[i])
+                .then(function(response) {
+                return response.json()
+                })
+                .then(function(response){
+                    // create a new object with details for each search result
+                    var newSearchResultObj = {
+                        title: response.Title,
+                        year: response.Year,
+                        rated: response.Rated,
+                        actors: response.Actors,
+                        director: response.Director,
+                        genre: response.Genre,
+                        plot: response.Plot,
+                        posterURL: response.Poster,
+                        writer: response.Writer,
+                        imdb: response.imdbRating
+                    }
+                    findResultsArray.push(newSearchResultObj);
+                })
+            }
+        })
+        .then(function(response){
+            for(i = 0; i < findResultsArray.length; i++){
+                // add if to cancel if poster is not available
+                if(findResultsArray[i].posterURL === "N/A" || findResultsArray[i].posterURL === null){
+                    console.log("no poster");
+                } else {
+                    // create a new div for single result container
+                    var resultContainer = document.createElement("div");
+                    resultContainer.id = [i];
+
+                    // create a new div for 1st row (title and year)
+                    var titleRow = document.createElement("div");
+                    var titleContent = document.createElement("h4");
+                    titleContent.textContent = findResultsArray[i].title + " (" + findResultsArray[i].year + ")";
+                    titleRow.append(titleContent);
+
+                    // create a new div for 2nd row
+                    var contentRow = document.createElement("div");
+                    
+                    // create a new div to contain poster
+                    var posterCol = document.createElement("div");
+                    var posterImg = document.createElement("img");
+                    posterImg.src = findResultsArray[i].posterURL;
+                    posterCol.append(posterImg);
+
+                    // create a new div to contain details
+                    var detailsCol = document.createElement("div");
+                    var detailsList = document.createElement("ul");
+                    detailsList.style = "none";
+                    var plotLi = document.createElement("li");
+                    plotLi.textContent = findResultsArray[i].plot;
+                    var directorLi = document.createElement("li");
+                    directorLi.textContent = findResultsArray[i].director;
+                    detailsList.append(plotLi,directorLi);
+                    detailsCol.append(detailsList);
+
+                    contentRow.append(posterCol,detailsCol)
+                    
+                    // append all to result container
+                    resultContainer.append(titleRow,contentRow);
+
+                    // append result container to main container
+                    searchResultsContainer.append(resultContainer);
+                }
+            }
+        })
+        };
