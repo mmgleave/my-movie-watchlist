@@ -152,32 +152,37 @@
         </div>
       </nav>
     
-    
-
-    
-
+<!-- search form container -->
 <div class="columns container m-4">
     <div class="column is-one-third">
-        <form action="">
-            <input id="movie-title-input" class="column input is-info" type="text" placeholder="Movie Title" >
-            <button id="search-btn" class="column button is-light" type="button">Search</button>
+      <h1>Movie Search</h1>
+        <form>
+            <input id="movie-title-input" class="input is-info m-4 p-4" type="text" placeholder="Movie Title" >
+            <button id="search-btn" class="button is-info m-4 p-4" type="submit">Search</button>
         </form>
     </div>
-    <div id="search-results-container">
-
+    <div id="search-results-container" class="column is-two-thirds m-4 p-4">
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
+<!-- lists container -->
+<div id="lists-container" class="container">
+  <!-- watchlist column -->
+  <div class="columns">
+    <div class="column is-one-half m-4 p-10">
+      <h2>Watchlist</h2>
+      <div id="watchlist-column">
+      </div>
+    </div>  
+    
+    <!-- watched column -->
+    <div class="column is-one-half m-4 p-10">
+      <h2>Watched</h2>
+      <div id="watched-column">
+      </div>
+    </div>  
+  </div>
+  </div>
 
     <script src="./assets/script/script.js"></script>
 </body>
