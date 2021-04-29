@@ -114,7 +114,7 @@ var fetchSearchResults = function (searchByTitle) {
                         } else {
                             // create a new div for single result container
                             var resultContainer = document.createElement("div");
-                            resultContainer.className.add("box");
+                            resultContainer.classList.add("box");
                             resultContainer.id = "result-" + response.imdbID;
 
                             // create a new div for 1st row (title and year)
