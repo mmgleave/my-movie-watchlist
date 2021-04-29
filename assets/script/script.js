@@ -26,6 +26,11 @@ var listsContainer = document.getElementById("lists-container");
 var watchlistContainer = document.getElementById("watchlist-column");
 var watchedContainer = document.getElementById("watched-column");
 
+// hide lists on load
+window.onload = function(){
+    listsContainer.style.display = "none";
+}
+
 // search button click / submit
 searchBtn.addEventListener('click', function (event) {
     event.preventDefault();
@@ -42,6 +47,7 @@ var addToWatch = function (event) {
     var targetedID = event.target.id;
     var targetedResult = document.getElementById("title-" + targetedID);
     var titleToAdd = targetedResult.textContent;
+    event.target.textContent = "(Added)"
 
     if (storedWatchlist === null) {
         watchlist.push(titleToAdd);
@@ -54,15 +60,15 @@ var addToWatch = function (event) {
 };
 
 // create watched list
-var createwatchedList = function() {
+var createwatchedList = function () {
     // clear out
     watchedContainer.innerHTML = "";
 
-    if(storedwatchedList === null) {
+    if (storedwatchedList === null) {
         watchedList = [];
-    } else { watchedList = storedwatchedList};
+    } else { watchedList = storedwatchedList };
 
-    for(i = 0; i < watchedList.length; i++){
+    for (i = 0; i < watchedList.length; i++) {
         var watchedItem = document.createElement("div");
         watchedItem.className = "columns box m-2";
         var watchedItemTitle = document.createElement("h4");
@@ -73,15 +79,11 @@ var createwatchedList = function() {
         reviewBtn.textContent = "Review";
         reviewBtn.className = "button is-info m-2"
         reviewBtn.addEventListener("click", review);
-        
+
         var removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove";
         removeBtn.className = "button is-danger m-2"
         removeBtn.addEventListener("click", removeFromWatched);
-
-        var reviewTextArea = document.createElement("textarea");
-        reviewTextArea.textContent = "Enter your review here";
-        reviewTextArea.className = "width-auto";
 
         watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
         watchedContainer.prepend(watchedItem)
@@ -149,7 +151,7 @@ var addToWatched = function (event) {
 };
 
 // remove from watched list when remove button clicked
-var removeFromWatched = function(){
+var removeFromWatched = function (event) {
     var targetedDiv = event.target.parentElement;
     var targetedTitle = targetedDiv.children[0].textContent;
 
@@ -184,16 +186,17 @@ var removeFromWatch = function (event) {
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
 };
 
-var review = function(event) {
+// review button ** NEEDS FUNCTION **
+var review = function (event) {
     var targetedDiv = event.target.parentElement;
-    var targetedTextArea = targetedDiv.children[3];
-    targetedTextArea.style.display = "block";
+    console.log("review button clicked")
 }
 
 // fetch search results
 var fetchSearchResults = function (searchByTitle) {
     // empty out search results array to show only new
     searchResultsArray = [];
+    findResultsArray = [];
 
     // fetch from search api
     fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
