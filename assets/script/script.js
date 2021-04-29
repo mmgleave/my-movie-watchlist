@@ -10,6 +10,9 @@ var findResultsArray = [];
 // stored watch list
 var storedWatchlist = JSON.parse(localStorage.getItem("watchlist"));
 
+// stored watched list
+var storedwatchedList = JSON.parse(localStorage.getItem("watchedList"));
+
 // watch list array
 var watchlist = [];
 
@@ -40,9 +43,7 @@ var addToWatch = function (event) {
     var targetedResult = document.getElementById("title-" + targetedID);
     var titleToAdd = targetedResult.textContent;
 
-    console.log(storedWatchlist);
-
-    if(storedWatchlist === null){
+    if (storedWatchlist === null) {
         watchlist.push(titleToAdd);
         localStorage.setItem("watchlist", JSON.stringify(watchlist));
     } else {
@@ -52,21 +53,53 @@ var addToWatch = function (event) {
     }
 };
 
-// remove from list when remove button clicked
-var removeFromWatch = function(event){
-    var targeted = event.target;
-    console.log(targeted);
-    
-}
+// create watched list
+var createwatchedList = function() {
+    // clear out
+    watchedContainer.innerHTML = "";
 
-var createWatchlist = function (){
-    if(storedWatchlist === null){
+    if(storedwatchedList === null) {
+        watchedList = [];
+    } else { watchedList = storedwatchedList};
+
+    for(i = 0; i < watchedList.length; i++){
+        var watchedItem = document.createElement("div");
+        watchedItem.className = "columns box m-2";
+        var watchedItemTitle = document.createElement("h4");
+        watchedItemTitle.textContent = watchedList[i];
+        watchedItemTitle.className = "column is-three-fifths";
+
+        var reviewBtn = document.createElement("button");
+        reviewBtn.textContent = "Review";
+        reviewBtn.className = "button is-info m-2"
+        reviewBtn.addEventListener("click", review);
+        
+        var removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.className = "button is-danger m-2"
+        removeBtn.addEventListener("click", removeFromWatched);
+
+        var reviewTextArea = document.createElement("textarea");
+        reviewTextArea.textContent = "Enter your review here";
+        reviewTextArea.className = "width-auto";
+
+        watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
+        watchedContainer.append(watchedItem)
+    };
+};
+
+// create watch list 
+var createWatchlist = function () {
+    // clear out
+    watchlistContainer.innerHTML = "";
+
+    if (storedWatchlist === null) {
         watchlist = [];
-    } else {watchlist = storedWatchlist};
+    } else { watchlist = storedWatchlist };
 
     for (i = 0; i < watchlist.length; i++) {
         var watchlistItem = document.createElement("div");
-        watchlistItem.classList.add("columns");
+        watchlistItem.className = "columns box m-2";
         var watchlistItemTitle = document.createElement("h4");
         watchlistItemTitle.textContent = watchlist[i];
         watchlistItemTitle.className = "column is-three-fifths";
@@ -86,8 +119,75 @@ var createWatchlist = function (){
     };
 };
 
-var addToWatched = function(event){
-    
+// add to watched list
+var addToWatched = function (event) {
+    var targetedDiv = event.target.parentElement;
+    var targetedTitle = targetedDiv.children[0].textContent;
+
+    for (i = 0; i < watchlist.length; i++) {
+        if (watchlist[i] === targetedTitle) {
+            watchlist.splice(i, 1);
+            i--;
+
+            if (storedWatchlist === null) {
+                watchedList.push(targetedTitle);
+                localStorage.setItem("watchedList", JSON.stringify(watchedList));
+            } else {
+                watchedList = storedwatchedList;
+                watchedList.push(targetedTitle);
+                localStorage.setItem("watchedList", JSON.stringify(watchedList));
+            }
+            createwatchedList();
+            targetedDiv.remove();
+
+        } else {
+            console.log("do nothing");
+        }
+    }
+
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+};
+
+// remove from watched list when remove button clicked
+var removeFromWatched = function(){
+    var targetedDiv = event.target.parentElement;
+    var targetedTitle = targetedDiv.children[0].textContent;
+
+    for (i = 0; i < watchedList.length; i++) {
+        if (watchedList[i] === targetedTitle) {
+            watchedList.splice(i, 1);
+            i--;
+            targetedDiv.remove();
+        } else {
+            console.log("do nothing");
+        }
+    }
+
+    localStorage.setItem("watchedList", JSON.stringify(watchedList));
+};
+
+// remove from watchlist when remove button clicked
+var removeFromWatch = function (event) {
+    var targetedDiv = event.target.parentElement;
+    var targetedTitle = targetedDiv.children[0].textContent;
+
+    for (i = 0; i < watchlist.length; i++) {
+        if (watchlist[i] === targetedTitle) {
+            watchlist.splice(i, 1);
+            i--;
+            targetedDiv.remove();
+        } else {
+            console.log("do nothing");
+        }
+    }
+
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+};
+
+var review = function(event) {
+    var targetedDiv = event.target.parentElement;
+    var targetedTextArea = targetedDiv.children[3];
+    targetedTextArea.style.display = "block";
 }
 
 // fetch search results
@@ -134,10 +234,7 @@ var fetchSearchResults = function (searchByTitle) {
                             imdbID: response.imdbID
                         };
 
-                        console.log(response);
-
                         if (newSearchResultObj.posterURL === "N/A" || newSearchResultObj.posterURL === null) {
-                            console.log("no poster");
                         } else {
                             // result container
                             var resultContainer = document.createElement("div");
@@ -204,15 +301,16 @@ var fetchSearchResults = function (searchByTitle) {
 };
 
 // hide lists and show search when search tab is clicked
-searchTabBtn.addEventListener("click", function(){
+searchTabBtn.addEventListener("click", function () {
     searchFormContainer.style.display = "block";
     listsContainer.style.display = "none";
 });
 
 // hide search and show lists when lists tab it clicked
 // generate watchlist from watchlist array
-watchlistsTabBtn.addEventListener("click", function(){
+watchlistsTabBtn.addEventListener("click", function () {
     createWatchlist();
+    createwatchedList();
     searchFormContainer.style.display = "none";
     listsContainer.style.display = "block";
 });
