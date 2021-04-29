@@ -114,20 +114,24 @@ var fetchSearchResults = function (searchByTitle) {
                         } else {
                             // create a new div for single result container
                             var resultContainer = document.createElement("div");
+                            resultContainer.className.add("box");
                             resultContainer.id = "result-" + response.imdbID;
 
                             // create a new div for 1st row (title and year)
                             var titleRow = document.createElement("div");
                             var titleContent = document.createElement("h4");
+                            titleRow.classList.add("block");
                             titleContent.id = "title-" + newSearchResultObj.imdbID;
                             titleContent.textContent = newSearchResultObj.title + " (" + newSearchResultObj.year + ")";
                             titleRow.append(titleContent);
 
                             // create a new div for 2nd row
                             var contentRow = document.createElement("div");
+                            contentRow.classList.add("block");
 
                             // create a new div to contain poster
                             var posterCol = document.createElement("div");
+                            posterCol.classList.add("block");
                             var posterImg = document.createElement("img");
                             posterImg.src = newSearchResultObj.posterURL;
                             posterCol.append(posterImg);
