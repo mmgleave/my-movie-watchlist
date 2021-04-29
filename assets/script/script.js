@@ -84,7 +84,7 @@ var createwatchedList = function() {
         reviewTextArea.className = "width-auto";
 
         watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
-        watchedContainer.append(watchedItem)
+        watchedContainer.prepend(watchedItem)
     };
 };
 
@@ -115,7 +115,7 @@ var createWatchlist = function () {
         removeBtn.addEventListener("click", removeFromWatch);
 
         watchlistItem.append(watchlistItemTitle, watchedBtn, removeBtn);
-        watchlistContainer.append(watchlistItem);
+        watchlistContainer.prepend(watchlistItem);
     };
 };
 
