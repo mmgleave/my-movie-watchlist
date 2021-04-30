@@ -11,7 +11,7 @@ var findResultsArray = [];
 var storedWatchlist = JSON.parse(localStorage.getItem("watchlist"));
 
 // stored watched list
-var storedwatchedList = JSON.parse(localStorage.getItem("watchedList"));
+var storedWatchedList = JSON.parse(localStorage.getItem("watchedList"));
 
 // watch list array
 var watchlist = [];
@@ -27,7 +27,7 @@ var watchlistContainer = document.getElementById("watchlist-column");
 var watchedContainer = document.getElementById("watched-column");
 
 // hide lists on load
-window.onload = function(){
+window.onload = function () {
     listsContainer.style.display = "none";
 }
 
@@ -60,13 +60,13 @@ var addToWatch = function (event) {
 };
 
 // create watched list
-var createwatchedList = function () {
+var createWatchedList = function () {
     // clear out
     watchedContainer.innerHTML = "";
 
-    if (storedwatchedList === null) {
+    if (storedWatchedList === null) {
         watchedList = [];
-    } else { watchedList = storedwatchedList };
+    } else { watchedList = storedWatchedList };
 
     for (i = 0; i < watchedList.length; i++) {
         var watchedItem = document.createElement("div");
@@ -95,7 +95,7 @@ var createWatchlist = function () {
     // clear out
     watchlistContainer.innerHTML = "";
 
-    if (storedWatchlist === null) {
+    if (storedWatchlist === null || storedWatchlist.length === 0) {
         watchlist = [];
     } else { watchlist = storedWatchlist };
 
@@ -122,32 +122,36 @@ var createWatchlist = function () {
 };
 
 // add to watched list
-var addToWatched = function (event) {
-    var targetedDiv = event.target.parentElement;
+var addToWatched = function(event) {
+    var targeted = event.target;
+    var targetedDiv = targeted.parentElement;
     var targetedTitle = targetedDiv.children[0].textContent;
 
-    for (i = 0; i < watchlist.length; i++) {
-        if (watchlist[i] === targetedTitle) {
+    for(i = 0; i < watchlist.length; i++){
+        if(targetedTitle === watchlist[i]){
             watchlist.splice(i, 1);
             i--;
 
-            if (storedWatchlist === null) {
+            console.log(storedWatchedList);
+
+            if(storedWatchedList === null || storedWatchedList.length === 0){
                 watchedList.push(targetedTitle);
-                localStorage.setItem("watchedList", JSON.stringify(watchedList));
             } else {
-                watchedList = storedwatchedList;
+                watchedList = storedWatchedList;
                 watchedList.push(targetedTitle);
-                localStorage.setItem("watchedList", JSON.stringify(watchedList));
-            }
-            createwatchedList();
+            };
+
             targetedDiv.remove();
+            localStorage.setItem("watchlist", JSON.stringify(watchlist));
+            localStorage.setItem("watchedList", JSON.stringify(watchedList));
 
         } else {
-            console.log("do nothing");
-        }
-    }
+            console.log("no match");
+        };
 
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+        createWatchlist();
+        createWatchedList();
+    }
 };
 
 // remove from watched list when remove button clicked
@@ -181,7 +185,7 @@ var removeFromWatch = function (event) {
         } else {
             console.log("do nothing");
         }
-    }
+    };
 
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
 };
@@ -313,7 +317,7 @@ searchTabBtn.addEventListener("click", function () {
 // generate watchlist from watchlist array
 watchlistsTabBtn.addEventListener("click", function () {
     createWatchlist();
-    createwatchedList();
+    createWatchedList();
     searchFormContainer.style.display = "none";
     listsContainer.style.display = "block";
 });
