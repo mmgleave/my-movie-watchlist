@@ -1,5 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'open Sans', sans-serif;
+    line-height: 1;
+}
+
 .title {
     text-align: center;
     font-size: 100px;
 }
-
+header {
+    padding: 10px 15px;
+}
+header p {
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
