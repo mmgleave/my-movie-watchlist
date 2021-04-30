@@ -69,24 +69,31 @@ var createWatchedList = function () {
     } else { watchedList = storedWatchedList };
 
     for (i = 0; i < watchedList.length; i++) {
+        // container
+        var watchedItemContainer = document.createElement("div");
+        watchedItemContainer.className = "box m-2"
+
         var watchedItem = document.createElement("div");
-        watchedItem.className = "columns box m-2";
+        watchedItem.className = "columns";
         var watchedItemTitle = document.createElement("h4");
-        watchedItemTitle.textContent = watchedList[i];
-        watchedItemTitle.className = "column is-three-fifths";
+        watchedItemTitle.textContent = watchedList[i].title;
+        watchedItemTitle.className = "column is-three-fifths";        
 
         var reviewBtn = document.createElement("button");
         reviewBtn.textContent = "Review";
-        reviewBtn.className = "button is-info m-2"
+        reviewBtn.className = "button is-info is-small is-outlined m-2"
         reviewBtn.addEventListener("click", review);
 
         var removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove";
-        removeBtn.className = "button is-danger m-2"
+        removeBtn.className = "button is-danger is-small is-outlined m-2"
         removeBtn.addEventListener("click", removeFromWatched);
 
+        // ** ADD DIV FOR USER REVIEW WHEN REVIEW: is not empty
+
         watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
-        watchedContainer.prepend(watchedItem)
+        watchedItemContainer.append(watchedItem);
+        watchedContainer.prepend(watchedItemContainer);
     };
 };
 
@@ -108,12 +115,12 @@ var createWatchlist = function () {
 
         var watchedBtn = document.createElement("button");
         watchedBtn.textContent = "Watched";
-        watchedBtn.className = "button is-info m-2"
+        watchedBtn.className = "button is-info is-small is-outlined m-2"
         watchedBtn.addEventListener("click", addToWatched);
 
         var removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove";
-        removeBtn.className = "button is-danger m-2"
+        removeBtn.className = "button is-danger is-small is-outlined m-2"
         removeBtn.addEventListener("click", removeFromWatch);
 
         watchlistItem.append(watchlistItemTitle, watchedBtn, removeBtn);
@@ -121,24 +128,69 @@ var createWatchlist = function () {
     };
 };
 
-// add to watched list
-var addToWatched = function(event) {
+var addWatchedItem = function (newTitle) {
+    // container
+    var watchedItemContainer = document.createElement("div");
+    watchedItemContainer.className = "box m-2"
+
+    // title and year, review btn, delete btn
+    var watchedItem = document.createElement("div");
+    watchedItem.className = "columns";
+    var watchedItemTitle = document.createElement("h4");
+    watchedItemTitle.textContent = newTitle;
+    watchedItemTitle.className = "column is-three-fifths";
+    var reviewBtn = document.createElement("button");
+    reviewBtn.textContent = "Review";
+    reviewBtn.className = "button is-info is-small is-outlined m-2"
+    reviewBtn.addEventListener("click", review);
+    var removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.className = "button is-danger is-small is-outlined m-2"
+    removeBtn.addEventListener("click", removeFromWatched);
+
+    // review content
+    var reviewRow = document.createElement("div");
+    var reviewHeader = document.createElement("h4");
+    reviewHeader.textContent = "Your Review:";
+    reviewHeader.className = "is-size-5 ml-2 mt-4 has-text-info";
+    var reviewForm = document.createElement("form");
+    reviewForm.className = "columns ml-1 mr-1 mt-4"
+    var reviewTextArea = document.createElement("textarea");
+    reviewTextArea.className = "column is-four-fifths textarea is-info is-small";
+    reviewTextArea.placeholder = "(Add your review here)."
+    var reviewSubmitBtn = document.createElement("button");
+    reviewSubmitBtn.textContent = "Submit"
+    reviewSubmitBtn.className = "button is-small is-info is-outlined m-2"
+    reviewSubmitBtn.addEventListener("click", submitReview);
+    reviewForm.append(reviewTextArea);
+    reviewRow.append(reviewForm, reviewSubmitBtn);
+
+    // append
+    watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
+    watchedItemContainer.append(watchedItem, reviewHeader, reviewRow);
+    watchedContainer.prepend(watchedItemContainer);
+};
+
+// add to watched list array
+var addToWatched = function (event) {
     var targeted = event.target;
     var targetedDiv = targeted.parentElement;
     var targetedTitle = targetedDiv.children[0].textContent;
+    var targetedReview = "";
+    var targetedObj = {title: targetedTitle, review: targetedReview};
 
-    for(i = 0; i < watchlist.length; i++){
-        if(targetedTitle === watchlist[i]){
+    for (i = 0; i < watchlist.length; i++) {
+        if (targetedTitle === watchlist[i]) {
             watchlist.splice(i, 1);
             i--;
 
             console.log(storedWatchedList);
 
-            if(storedWatchedList === null || storedWatchedList.length === 0){
-                watchedList.push(targetedTitle);
+            if (storedWatchedList === null || storedWatchedList.length === 0) {
+                watchedList.push(targetedObj);
             } else {
                 watchedList = storedWatchedList;
-                watchedList.push(targetedTitle);
+                watchedList.push(targetedObj);
             };
 
             targetedDiv.remove();
@@ -148,10 +200,9 @@ var addToWatched = function(event) {
         } else {
             console.log("no match");
         };
+    };
 
-        createWatchlist();
-        createWatchedList();
-    }
+    addWatchedItem(targetedTitle);
 };
 
 // remove from watched list when remove button clicked
@@ -160,10 +211,10 @@ var removeFromWatched = function (event) {
     var targetedTitle = targetedDiv.children[0].textContent;
 
     for (i = 0; i < watchedList.length; i++) {
-        if (watchedList[i] === targetedTitle) {
+        if (watchedList[i].title === targetedTitle) {
             watchedList.splice(i, 1);
             i--;
-            targetedDiv.remove();
+            targetedDiv.parentElement.remove();
         } else {
             console.log("do nothing");
         }
@@ -181,7 +232,7 @@ var removeFromWatch = function (event) {
         if (watchlist[i] === targetedTitle) {
             watchlist.splice(i, 1);
             i--;
-            targetedDiv.remove();
+            targetedDiv.parentElement.remove();
         } else {
             console.log("do nothing");
         }
@@ -190,13 +241,48 @@ var removeFromWatch = function (event) {
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
 };
 
-// review button ** NEEDS FUNCTION **
+// review button
 var review = function (event) {
-    var targetedDiv = event.target.parentElement;
+    var targetedDiv = event.target.parentElement.parentElement;
     console.log("review button clicked")
+
+    var reviewRow = document.createElement("div");
+    var reviewHeader = document.createElement("h4");
+    reviewHeader.textContent = "Your Review:";
+    reviewHeader.className = "is-size-5 ml-2 mt-4 has-text-info";
+    var reviewForm = document.createElement("form");
+    reviewForm.className = "columns ml-1 mr-1 mt-4"
+    var reviewTextArea = document.createElement("textarea");
+    reviewTextArea.className = "column is-four-fifths textarea is-info is-small";
+    reviewTextArea.placeholder = "(Add your review here)."
+    var reviewSubmitBtn = document.createElement("button");
+    reviewSubmitBtn.textContent = "Submit"
+    reviewSubmitBtn.className = "button is-small is-info is-outlined m-2"
+    reviewSubmitBtn.addEventListener("click", submitReview);
+    reviewForm.append(reviewTextArea);
+    reviewRow.append(reviewForm, reviewSubmitBtn);
+
+    targetedDiv.append(reviewHeader, reviewRow);
+
+    reviewTextArea.focus();
 }
 
-// fetch search results
+// submit review button ** NEEDS FUNCTION **
+var submitReview = function(event) {
+    event.preventDefault();
+
+    var userReviewInput = event.target.parentElement.children[0].children[0].value;
+    var targetedDiv = event.target.parentElement.parentElement;
+    var newUserReview = document.createElement("p");
+    var reviewInputDiv = event.target.parentElement;
+    newUserReview.className = "m-2 mt-4 is-size-6";
+    newUserReview.textContent = userReviewInput;
+
+    reviewInputDiv.style.display = "none";
+    targetedDiv.append(newUserReview);
+};
+
+// fetch search results from omdb
 var fetchSearchResults = function (searchByTitle) {
     // empty out search results array to show only new
     searchResultsArray = [];
@@ -307,24 +393,24 @@ var fetchSearchResults = function (searchByTitle) {
         })
 };
 
-function render(title, averageVotes, releaseDate){
-    renderTitle (title);
-    renderAverageVotes (averageVotes, data.averageVotes);
-    releaseDate (releaseDate, data.releaseDate);
+function render(title, averageVotes, releaseDate) {
+    renderTitle(title);
+    renderAverageVotes(averageVotes, data.averageVotes);
+    releaseDate(releaseDate, data.releaseDate);
 }
 
 fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
-.then(function(response) {
-    console.log(response);
-    return response.json();
-})
-.then(function(json) {
-    //render (title, averageVotes, releaseDate);
-    console.log(json);
-})
-.catch(function(error) {
-    console.error(error);
-});
+    .then(function (response) {
+        console.log(response);
+        return response.json();
+    })
+    .then(function (json) {
+        //render (title, averageVotes, releaseDate);
+        console.log(json);
+    })
+    .catch(function (error) {
+        console.error(error);
+    });
 
 // hide lists and show search when search tab is clicked
 searchTabBtn.addEventListener("click", function () {
