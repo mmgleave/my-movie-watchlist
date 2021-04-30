@@ -12,15 +12,19 @@
 </head>
 
 <body>
-  <!-- Header contains hero section from Bulma -->
-  <!-- has background-grey-light -->
-  <header class="header">
-    <section class="hero" is-full>
-      <div class="hero-body">
-        <p class="title">
-          My Movie Watchlist
-        </p>
 
+  <!-- Header contains hero section from Bulma -->
+    <header class="header">
+        <section class="hero" is-full>
+            <div>
+              <p class="title">
+                My Movie Watchlist 
+              </p>
+              
+            </div>
+          </section>
+    </header> 
+    
       </div>
     </section>
   </header>
@@ -35,11 +39,13 @@
   <!-- search form container -->
   <div id="search-form-container" class="columns container m-4">
     <div class="column is-one-third">
+
       <h1>Movie Search</h1>
       <form>
         <input id="movie-title-input" class="input is-info m-4 p-4" type="text" placeholder="Movie Title">
         <button id="search-btn" class="button is-info m-4 p-4" type="submit">Search</button>
       </form>
+
     </div>
     <div id="search-results-container" class="column is-two-thirds m-4 p-4">
     </div>
