@@ -174,4 +174,23 @@ var fetchSearchResults = function (searchByTitle) {
             })        
 };
 
+function render(title, averageVotes, releaseDate){
+    renderTitle (title);
+    renderAverageVotes (averageVotes, data.averageVotes);
+    releaseDate (releaseDate, data.releaseDate);
+}
+
+fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
+.then(function(response) {
+    console.log(response);
+    return response.json();
+})
+.then(function(json) {
+    //render (title, averageVotes, releaseDate);
+    console.log(json);
+})
+.catch(function(error) {
+    console.error(error);
+});
+
 // call create watch list when watchlist button is clicked
