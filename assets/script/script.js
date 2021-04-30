@@ -69,7 +69,7 @@ var fetchSearchResults = function (searchByTitle) {
     searchResultsArray = [];
 
     // fetch from search api
-    fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
+    fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle) 
         .then(function (response) {
             return response.json()
         })
@@ -243,9 +243,10 @@ var fetchSearchResults = function (searchByTitle) {
                     });
                 }
             });
-        })
         }
+        
+    
                 
-};
+
 
 // call create watch list when watchlist button is clicked
