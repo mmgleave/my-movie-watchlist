@@ -11,7 +11,7 @@ var findResultsArray = [];
 var storedWatchlist = JSON.parse(localStorage.getItem("watchlist"));
 
 // stored watched list
-var storedwatchedList = JSON.parse(localStorage.getItem("watchedList"));
+var storedWatchedList = JSON.parse(localStorage.getItem("watchedList"));
 
 // watch list array
 var watchlist = [];
@@ -64,9 +64,9 @@ var createwatchedList = function () {
     // clear out
     watchedContainer.innerHTML = "";
 
-    if (storedwatchedList === null) {
+    if (storedWatchedList === null) {
         watchedList = [];
-    } else { watchedList = storedwatchedList };
+    } else { watchedList = storedWatchedList };
 
     for (i = 0; i < watchedList.length; i++) {
         var watchedItem = document.createElement("div");
@@ -124,6 +124,7 @@ var createWatchlist = function () {
 // add to watched list
 var addToWatched = function (event) {
     var targetedDiv = event.target.parentElement;
+    console.log(targetedDiv);
     var targetedTitle = targetedDiv.children[0].textContent;
 
     for (i = 0; i < watchlist.length; i++) {
@@ -131,11 +132,11 @@ var addToWatched = function (event) {
             watchlist.splice(i, 1);
             i--;
 
-            if (storedWatchlist === null) {
+            if (storedWatchedList === null || storedWatchedList === undefined) {
                 watchedList.push(targetedTitle);
                 localStorage.setItem("watchedList", JSON.stringify(watchedList));
             } else {
-                watchedList = storedwatchedList;
+                watchedList = storedWatchlist;
                 watchedList.push(targetedTitle);
                 localStorage.setItem("watchedList", JSON.stringify(watchedList));
             }
