@@ -321,6 +321,8 @@ fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587
 .then(function(json) {
     //render (title, averageVotes, releaseDate);
     console.log(json);
+    console.log(json.results[0].title);
+    console.log(json.results.length);
 })
 .catch(function(error) {
     console.error(error);

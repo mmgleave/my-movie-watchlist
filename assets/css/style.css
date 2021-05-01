@@ -15,10 +15,10 @@ body {
 }
 
 .header {
-    padding: 50px 30px;
-    background-image: url("../images/depositphotos_5946788-stock-illustration-film-strip.jpg");
+    padding: 30px 50px;
+    background-image: url("../images/pngtree-movie-theme-background--film-element-image_222132.jpg");
     background-repeat: no-repeat;
-    background-size: 1355px 200px;
+    background-size: cover;
 }
  
 header p {
