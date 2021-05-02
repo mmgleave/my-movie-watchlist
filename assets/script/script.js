@@ -48,7 +48,9 @@ var addToWatch = function (event) {
     var targetedResult = document.getElementById("title-" + targetedID);
     var titleToAdd = targetedResult.textContent;
     event.target.textContent = "(Added)"
+    event.target.disabled = true;
 
+    // add to local storage
     if (storedWatchlist === null) {
         watchlist.push(titleToAdd);
         localStorage.setItem("watchlist", JSON.stringify(watchlist));
@@ -147,6 +149,7 @@ var addWatchedItem = function (newTitle) {
     reviewBtn.textContent = "Review";
     reviewBtn.className = "button is-info is-small is-outlined m-2"
     reviewBtn.addEventListener("click", review);
+    reviewBtn.disabled = true;
     var removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.className = "button is-danger is-small is-outlined m-2"
@@ -439,6 +442,9 @@ fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587
 searchTabBtn.addEventListener("click", function () {
     searchFormContainer.style.display = "block";
     listsContainer.style.display = "none";
+    searchTabBtn.classList.remove("is-light");
+    searchTabBtn.classList.add("is-info");
+    watchlistsTabBtn.classList.add("is-light");
 });
 
 // hide search and show lists when lists tab it clicked
@@ -448,4 +454,7 @@ watchlistsTabBtn.addEventListener("click", function () {
     createWatchedList();
     searchFormContainer.style.display = "none";
     listsContainer.style.display = "block";
+    watchlistsTabBtn.classList.remove("is-light");
+    watchlistsTabBtn.classList.add("is-info");
+    searchTabBtn.classList.add("is-light");
 });
