@@ -8,25 +8,36 @@
 5. [FAQs](#faqs)
 ### General Info
 ***
-Write down general information about your project. It is a good idea to always put a project status in the readme file. This is where you can add it. 
+**My Movie Watchlist** is an interactive application; were the user can enter the title to a movie and get a list of movies that can then be sorted and saved to a watch list. This project is a collaboration between three students over the course of two weeks in a full stack bootcamp. 
+At this point in our course we have just finished server side APIs. We have been given the following perameters to be successful in this project:
+-Use a CSS framwork other than Bootstrap
+-Be deployed to GitHub Pages
+-Be interactive
+-Use at least two server side APIs
+-Does not use alerts, confirms, or prompts
+-use client side storage to store persistent data.
+-Be responsive.
+-have a polished UI.
+-Have a clean repository that meets quality coding standards.
+-have a quality README.
+We chose Bulma as our framwork for CSS. It has worked for us but has been a challenge to learn in the two weeks. The two server side APIs are; The Open Movie Database , and The Movie Database API.
+
 ### Screenshot
-![Image text](https://www.united-internet.de/fileadmin/user_upload/Brands/Downloads/Logo_IONOS_by.jpg)
+![search screen](http://prnt.sc/12ecqid)
+![watchlist](http://prnt.sc/12ecto8)
 ## Technologies
 ***
 A list of technologies used within the project:
-* [Technology name](https://example.com): Version 12.3 
-* [Technology name](https://example.com): Version 2.34
-* [Library name](https://example.com): Version 1234
+-[omdb]("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=")
+-[themoviedb]("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
+-[Bulma]("https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css")
+
 ## Installation
 ***
-A little intro about the installation. 
 ```
-$ git clone https://example.com
-$ cd ../path/to/the/file
-$ npm install
-$ npm start
+$ git clone https://github.com/mmgleave/my-movie-watchlist.git
+
 ```
-Side information: To use the application in a special environment use ```lorem ipsum``` to start
 ## Collaboration
 ***
 Give instructions on how to collaborate with your project.
