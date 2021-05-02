@@ -77,7 +77,7 @@ var createWatchedList = function () {
         watchedItem.className = "columns";
         var watchedItemTitle = document.createElement("h4");
         watchedItemTitle.textContent = watchedList[i].title;
-        watchedItemTitle.className = "column is-three-fifths";        
+        watchedItemTitle.className = "column is-three-fifths";
 
         var reviewBtn = document.createElement("button");
         reviewBtn.textContent = "Review";
@@ -89,19 +89,22 @@ var createWatchedList = function () {
         removeBtn.className = "button is-danger is-small is-outlined m-2"
         removeBtn.addEventListener("click", removeFromWatched);
 
-        // ** ADD DIV FOR USER REVIEW WHEN REVIEW: is not empty
+        var userReview = document.createElement("p");
+        userReview.className = "m-2 mt-4 is-size-6 has-text-info";
+        userReview.textContent = watchedList[i].review;
 
         watchedItem.append(watchedItemTitle, reviewBtn, removeBtn);
-        watchedItemContainer.append(watchedItem);
+        watchedItemContainer.append(watchedItem, userReview);
         watchedContainer.prepend(watchedItemContainer);
     };
 };
 
-// create watch list 
+// create watch list (on page load)
 var createWatchlist = function () {
     // clear out
     watchlistContainer.innerHTML = "";
 
+    // loop through stored data to produce list and add each item
     if (storedWatchlist === null || storedWatchlist.length === 0) {
         watchlist = [];
     } else { watchlist = storedWatchlist };
@@ -128,6 +131,7 @@ var createWatchlist = function () {
     };
 };
 
+// remove item from watch list and move to watched lsit
 var addWatchedItem = function (newTitle) {
     // container
     var watchedItemContainer = document.createElement("div");
@@ -151,7 +155,7 @@ var addWatchedItem = function (newTitle) {
     // review content
     var reviewRow = document.createElement("div");
     var reviewHeader = document.createElement("h4");
-    reviewHeader.textContent = "Your Review:";
+    reviewHeader.textContent = "User Review:";
     reviewHeader.className = "is-size-5 ml-2 mt-4 has-text-info";
     var reviewForm = document.createElement("form");
     reviewForm.className = "columns ml-1 mr-1 mt-4"
@@ -177,14 +181,12 @@ var addToWatched = function (event) {
     var targetedDiv = targeted.parentElement;
     var targetedTitle = targetedDiv.children[0].textContent;
     var targetedReview = "";
-    var targetedObj = {title: targetedTitle, review: targetedReview};
+    var targetedObj = { title: targetedTitle, review: targetedReview };
 
     for (i = 0; i < watchlist.length; i++) {
         if (targetedTitle === watchlist[i]) {
             watchlist.splice(i, 1);
             i--;
-
-            console.log(storedWatchedList);
 
             if (storedWatchedList === null || storedWatchedList.length === 0) {
                 watchedList.push(targetedObj);
@@ -227,12 +229,13 @@ var removeFromWatched = function (event) {
 var removeFromWatch = function (event) {
     var targetedDiv = event.target.parentElement;
     var targetedTitle = targetedDiv.children[0].textContent;
+    console.log(watchlist);
 
     for (i = 0; i < watchlist.length; i++) {
         if (watchlist[i] === targetedTitle) {
             watchlist.splice(i, 1);
             i--;
-            targetedDiv.parentElement.remove();
+            targetedDiv.remove();
         } else {
             console.log("do nothing");
         }
@@ -244,16 +247,20 @@ var removeFromWatch = function (event) {
 // review button
 var review = function (event) {
     var targetedDiv = event.target.parentElement.parentElement;
-    console.log("review button clicked")
 
     var reviewRow = document.createElement("div");
     var reviewHeader = document.createElement("h4");
-    reviewHeader.textContent = "Your Review:";
+    reviewHeader.textContent = "User Review:";
     reviewHeader.className = "is-size-5 ml-2 mt-4 has-text-info";
     var reviewForm = document.createElement("form");
     reviewForm.className = "columns ml-1 mr-1 mt-4"
     var reviewTextArea = document.createElement("textarea");
     reviewTextArea.className = "column is-four-fifths textarea is-info is-small";
+    event.target.disabled = true;
+
+    var targetedReview = targetedDiv.children[1];
+    targetedReview.style.display = "none";
+
     reviewTextArea.placeholder = "(Add your review here)."
     var reviewSubmitBtn = document.createElement("button");
     reviewSubmitBtn.textContent = "Submit"
@@ -267,19 +274,36 @@ var review = function (event) {
     reviewTextArea.focus();
 }
 
-// submit review button ** NEEDS FUNCTION **
-var submitReview = function(event) {
+// submit review (on button click)
+var submitReview = function (event) {
     event.preventDefault();
 
     var userReviewInput = event.target.parentElement.children[0].children[0].value;
     var targetedDiv = event.target.parentElement.parentElement;
+
+    // add p tag for user input
     var newUserReview = document.createElement("p");
     var reviewInputDiv = event.target.parentElement;
-    newUserReview.className = "m-2 mt-4 is-size-6";
+    newUserReview.className = "m-2 mt-4 is-size-6 has-text-info";
     newUserReview.textContent = userReviewInput;
 
     reviewInputDiv.style.display = "none";
     targetedDiv.append(newUserReview);
+
+    // add review to local storage for item
+    var targetedTitle = targetedDiv.children[0].children[0].textContent;
+
+    for(i = 0; i < storedWatchedList.length; i++){
+        if(targetedTitle === storedWatchedList[i].title) {
+            storedWatchedList[i].review = userReviewInput;
+            console.log(storedWatchedList[i]);
+
+            localStorage.setItem("watchedList", JSON.stringify(storedWatchedList));
+            console.log(localStorage.getItem("watchedList"));
+        } else {
+            console.log("error: no match");
+        }
+    };
 };
 
 // fetch search results from omdb
@@ -289,7 +313,7 @@ var fetchSearchResults = function (searchByTitle) {
     findResultsArray = [];
 
     // fetch from search api
-    fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
+    fetch("https://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&s=" + searchByTitle)
         .then(function (response) {
             return response.json()
         })
@@ -308,7 +332,7 @@ var fetchSearchResults = function (searchByTitle) {
         .then(function (response) {
             // for each title in search results array from first search
             for (i = 0; i < response.length; i++) {
-                fetch("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=" + response[i])
+                fetch("https://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=" + response[i])
                     .then(function (response) {
                         return response.json()
                     })
@@ -401,7 +425,6 @@ function render(title, averageVotes, releaseDate) {
 
 fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
     .then(function (response) {
-        console.log(response);
         return response.json();
     })
     .then(function (json) {
