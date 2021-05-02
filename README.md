@@ -28,9 +28,9 @@ We chose Bulma as our framwork for CSS. It has worked for us but has been a chal
 ## Technologies
 ***
 A list of technologies used within the project:
--[omdb]("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=")
--[themoviedb]("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
--[Bulma]("https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css")
+- [omdb]("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=")
+- [themoviedb]("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
+- [Bulma]("https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css")
 
 ## Installation
 ***
@@ -38,10 +38,15 @@ A list of technologies used within the project:
 $ git clone https://github.com/mmgleave/my-movie-watchlist.git
 
 ```
+
+## Contributors
+***
+- mmgleave Michelle Gleave
+- OSSATMTeamjc18
+- BrianShearer
+
 ## Collaboration
 ***
-Give instructions on how to collaborate with your project.
-> Maybe you want to write a quote in this part. 
-> Should it encompass several lines?
-> This is how you do it.
+Check out the issues with the help wanted label. We suggest you look at the closed ones to get a sense of the kinds of issues you can tackle.
+
 
