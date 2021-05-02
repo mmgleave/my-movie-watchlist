@@ -23,15 +23,15 @@ At this point in our course we have just finished server side APIs. We have been
 We chose Bulma as our framwork for CSS. It has worked for us but has been a challenge to learn in the two weeks. The two server side APIs are; The Open Movie Database , and The Movie Database API.
 
 ### Screenshot
-- <http://prnt.sc/12ecqid>
+
 - ![search screen](http://prnt.sc/12ecqid)
 - ![watchlist](http://prnt.sc/12ecto8)
 ## Technologies
 ***
 A list of technologies used within the project:
-- ![omdb]("http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=")
-- ![themoviedb]("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
-- ![Bulma]("https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css")
+- [omdb] <"http://www.omdbapi.com/?apikey=acd97009&type=movie&page=1&t=">
+- [themoviedb]("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
+- [Bulma]("https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css")
 
 ## Installation
 ***
