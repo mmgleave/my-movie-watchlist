@@ -362,6 +362,7 @@ var fetchSearchResults = function (searchByTitle) {
                             var titleRow = document.createElement("div");
                             var titleContent = document.createElement("h4");
                             titleRow.classList.add("block");
+                            titleRow.classList.add("is-size-4")
                             titleContent.id = "title-" + newSearchResultObj.imdbID;
                             titleContent.textContent = newSearchResultObj.title + " (" + newSearchResultObj.year + ")";
                             titleRow.append(titleContent);
@@ -369,16 +370,18 @@ var fetchSearchResults = function (searchByTitle) {
                             // 2nd row
                             var contentRow = document.createElement("div");
                             contentRow.classList.add("block");
+                            contentRow.classList.add("columns");
 
                             // poster
                             var posterCol = document.createElement("div");
-                            posterCol.classList.add("block");
+                            posterCol.className = "block column is-one-third";
                             var posterImg = document.createElement("img");
                             posterImg.src = newSearchResultObj.posterURL;
                             posterCol.append(posterImg);
 
                             // details of search result
                             var detailsCol = document.createElement("div");
+                            detailsCol.classList.add("column")
                             var detailsList = document.createElement("ul");
                             detailsList.style = "none";
                             var genreLi = document.createElement("li");
@@ -390,24 +393,21 @@ var fetchSearchResults = function (searchByTitle) {
                             var actorsLi = document.createElement("li");
                             actorsLi.textContent = "Actors: " + newSearchResultObj.actors;
 
-                            // *** add if here to only append if content is not N/A or null
-
                             detailsList.append(genreLi, plotLi, directorLi, actorsLi);
                             detailsCol.append(detailsList);
 
                             contentRow.append(posterCol, detailsCol)
 
                             // add to watchlist button
-                            var buttonRow = document.createElement("div");
                             var addToWatchBtn = document.createElement("button");
                             addToWatchBtn.textContent = "Add to Watchlist";
-                            addToWatchBtn.className = "add-btn button is-info";
+                            addToWatchBtn.className = "add-btn button is-info mt-5";
                             addToWatchBtn.id = response.imdbID;
                             addToWatchBtn.addEventListener("click", addToWatch);
-                            buttonRow.append(addToWatchBtn);
+                            detailsCol.append(addToWatchBtn);
 
                             // append all to result container
-                            resultContainer.append(titleRow, contentRow, buttonRow);
+                            resultContainer.append(titleRow, contentRow);
 
                             // append result container to main container
                             searchResultsContainer.append(resultContainer);
