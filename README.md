@@ -30,8 +30,8 @@ We chose Bulma as our framwork for CSS. It has worked for us but has been a chal
 ***
 A list of technologies used within the project:
 - [omdb] (http://www.omdbapi.com)
-- [themoviedb](https://api.themoviedb.org)
-- [Bulma](https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css)
+- [themoviedb] (https://api.themoviedb.org)
+- [Bulma] (https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css)
 
 ## Installation
 ***
