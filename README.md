@@ -23,6 +23,7 @@ At this point in our course we have just finished server side APIs. We have been
 We chose Bulma as our framwork for CSS. It has worked for us but has been a challenge to learn in the two weeks. The two server side APIs are; The Open Movie Database , and The Movie Database API.
 
 ### Screenshot
+- <http://prnt.sc/12ecqid>
 - ![search screen](http://prnt.sc/12ecqid)
 - ![watchlist](http://prnt.sc/12ecto8)
 ## Technologies
