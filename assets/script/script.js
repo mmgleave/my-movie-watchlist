@@ -48,7 +48,9 @@ var addToWatch = function (event) {
     var targetedResult = document.getElementById("title-" + targetedID);
     var titleToAdd = targetedResult.textContent;
     event.target.textContent = "(Added)"
+    event.target.disabled = true;
 
+    // add to local storage
     if (storedWatchlist === null) {
         watchlist.push(titleToAdd);
         localStorage.setItem("watchlist", JSON.stringify(watchlist));
@@ -147,6 +149,7 @@ var addWatchedItem = function (newTitle) {
     reviewBtn.textContent = "Review";
     reviewBtn.className = "button is-info is-small is-outlined m-2"
     reviewBtn.addEventListener("click", review);
+    reviewBtn.disabled = true;
     var removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.className = "button is-danger is-small is-outlined m-2"
@@ -362,6 +365,7 @@ var fetchSearchResults = function (searchByTitle) {
                             var titleRow = document.createElement("div");
                             var titleContent = document.createElement("h4");
                             titleRow.classList.add("block");
+                            titleRow.classList.add("is-size-4")
                             titleContent.id = "title-" + newSearchResultObj.imdbID;
                             titleContent.textContent = newSearchResultObj.title + " (" + newSearchResultObj.year + ")";
                             titleRow.append(titleContent);
@@ -369,28 +373,32 @@ var fetchSearchResults = function (searchByTitle) {
                             // 2nd row
                             var contentRow = document.createElement("div");
                             contentRow.classList.add("block");
+                            contentRow.classList.add("columns");
 
                             // poster
                             var posterCol = document.createElement("div");
-                            posterCol.classList.add("block");
+                            posterCol.className = "block column is-one-third";
                             var posterImg = document.createElement("img");
                             posterImg.src = newSearchResultObj.posterURL;
                             posterCol.append(posterImg);
 
                             // details of search result
                             var detailsCol = document.createElement("div");
+                            detailsCol.className = "column is-two-thirds";
                             var detailsList = document.createElement("ul");
                             detailsList.style = "none";
                             var genreLi = document.createElement("li");
                             genreLi.textContent = "Genre: " + newSearchResultObj.genre;
+                            genreLi.className = "mt-2";
                             var plotLi = document.createElement("li");
                             plotLi.textContent = "Plot: " + newSearchResultObj.plot;
+                            plotLi.className = "mt-2";
                             var directorLi = document.createElement("li");
                             directorLi.textContent = "Director: " + newSearchResultObj.director;
+                            directorLi.className = "mt-2";
                             var actorsLi = document.createElement("li");
                             actorsLi.textContent = "Actors: " + newSearchResultObj.actors;
-
-                            // *** add if here to only append if content is not N/A or null
+                            actorsLi.className = "mt-2";
 
                             detailsList.append(genreLi, plotLi, directorLi, actorsLi);
                             detailsCol.append(detailsList);
@@ -398,20 +406,22 @@ var fetchSearchResults = function (searchByTitle) {
                             contentRow.append(posterCol, detailsCol)
 
                             // add to watchlist button
-                            var buttonRow = document.createElement("div");
                             var addToWatchBtn = document.createElement("button");
                             addToWatchBtn.textContent = "Add to Watchlist";
-                            addToWatchBtn.className = "add-btn button is-info";
+                            addToWatchBtn.className = "add-btn button is-info mt-5";
                             addToWatchBtn.id = response.imdbID;
                             addToWatchBtn.addEventListener("click", addToWatch);
-                            buttonRow.append(addToWatchBtn);
+                            detailsCol.append(addToWatchBtn);
 
                             // append all to result container
-                            resultContainer.append(titleRow, contentRow, buttonRow);
+                            resultContainer.append(titleRow, contentRow);
 
                             // append result container to main container
                             searchResultsContainer.append(resultContainer);
                         }
+                    })
+                    .catch(function (error){
+                        console.log(error);
                     });
             }
         })
@@ -439,6 +449,9 @@ fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587
 searchTabBtn.addEventListener("click", function () {
     searchFormContainer.style.display = "block";
     listsContainer.style.display = "none";
+    searchTabBtn.classList.remove("is-light");
+    searchTabBtn.classList.add("is-info");
+    watchlistsTabBtn.classList.add("is-light");
 });
 
 // hide search and show lists when lists tab it clicked
@@ -448,4 +461,7 @@ watchlistsTabBtn.addEventListener("click", function () {
     createWatchedList();
     searchFormContainer.style.display = "none";
     listsContainer.style.display = "block";
+    watchlistsTabBtn.classList.remove("is-light");
+    watchlistsTabBtn.classList.add("is-info");
+    searchTabBtn.classList.add("is-light");
 });
