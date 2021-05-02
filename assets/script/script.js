@@ -384,17 +384,21 @@ var fetchSearchResults = function (searchByTitle) {
 
                             // details of search result
                             var detailsCol = document.createElement("div");
-                            detailsCol.classList.add("column")
+                            detailsCol.className = "column is-two-thirds";
                             var detailsList = document.createElement("ul");
                             detailsList.style = "none";
                             var genreLi = document.createElement("li");
                             genreLi.textContent = "Genre: " + newSearchResultObj.genre;
+                            genreLi.className = "mt-2";
                             var plotLi = document.createElement("li");
                             plotLi.textContent = "Plot: " + newSearchResultObj.plot;
+                            plotLi.className = "mt-2";
                             var directorLi = document.createElement("li");
                             directorLi.textContent = "Director: " + newSearchResultObj.director;
+                            directorLi.className = "mt-2";
                             var actorsLi = document.createElement("li");
                             actorsLi.textContent = "Actors: " + newSearchResultObj.actors;
+                            actorsLi.className = "mt-2";
 
                             detailsList.append(genreLi, plotLi, directorLi, actorsLi);
                             detailsCol.append(detailsList);
@@ -415,6 +419,9 @@ var fetchSearchResults = function (searchByTitle) {
                             // append result container to main container
                             searchResultsContainer.append(resultContainer);
                         }
+                    })
+                    .catch(function (error){
+                        console.log(error);
                     });
             }
         })
