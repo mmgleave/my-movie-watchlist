@@ -24,8 +24,9 @@ We chose Bulma as our framwork for CSS. It has worked for us but has been a chal
 
 ### Screenshot
 
-- ![search screen](http://prnt.sc/12ecqid)
-- ![watchlist](http://prnt.sc/12ecto8)
+![watchlist1](https://user-images.githubusercontent.com/73356688/116828737-c4faa180-ab5d-11eb-952e-8deb35d09895.png)
+![my-movie-watchlist2](https://user-images.githubusercontent.com/73356688/116828738-c62bce80-ab5d-11eb-98e2-2fe6fb169ef9.png)
+
 ## Technologies
 ***
 A list of technologies used within the project:
