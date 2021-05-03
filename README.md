@@ -8,45 +8,47 @@
 5. [FAQs](#faqs)
 ### General Info
 ***
-Write down general information about your project. It is a good idea to always put a project status in the readme file. This is where you can add it. 
+**My Movie Watchlist** is an interactive application; were the user can enter the title to a movie and get a list of movies that can then be sorted and saved to a watch list. This project is a collaboration between three students over the course of two weeks in a full stack bootcamp. 
+At this point in our course we have just finished server side APIs. We have been given the following perameters to be successful in this project:
+- Use a CSS framwork other than Bootstrap
+- Be deployed to GitHub Pages
+- Be interactive
+- Use at least two server side APIs
+- Does not use alerts, confirms, or prompts
+- use client side storage to store persistent data.
+- Be responsive.
+- have a polished UI.
+- Have a clean repository that meets quality coding standards.
+- have a quality README.
+We chose Bulma as our framwork for CSS. It has worked for us but has been a challenge to learn in the two weeks. The two server side APIs are; The Open Movie Database , and The Movie Database API.
+
 ### Screenshot
-![Image text](https://www.united-internet.de/fileadmin/user_upload/Brands/Downloads/Logo_IONOS_by.jpg)
+
+![watchlist1](https://user-images.githubusercontent.com/73356688/116828737-c4faa180-ab5d-11eb-952e-8deb35d09895.png)
+![my-movie-watchlist2](https://user-images.githubusercontent.com/73356688/116828738-c62bce80-ab5d-11eb-98e2-2fe6fb169ef9.png)
+
 ## Technologies
 ***
 A list of technologies used within the project:
-* [Technology name](https://example.com): Version 12.3 
-* [Technology name](https://example.com): Version 2.34
-* [Library name](https://example.com): Version 1234
+- [omdb] (http://www.omdbapi.com)
+- [themoviedb] (https://api.themoviedb.org)
+- [Bulma] (https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css)
+
 ## Installation
 ***
-A little intro about the installation. 
 ```
-$ git clone https://example.com
-$ cd ../path/to/the/file
-$ npm install
-$ npm start
+$ git clone https://github.com/mmgleave/my-movie-watchlist.git
+
 ```
-Side information: To use the application in a special environment use ```lorem ipsum``` to start
+
+## Contributors
+***
+- mmgleave Michelle Gleave
+- OSSATMTeamjc18
+- BrianShearer
+
 ## Collaboration
 ***
-Give instructions on how to collaborate with your project.
-> Maybe you want to write a quote in this part. 
-> Should it encompass several lines?
-> This is how you do it.
-## FAQs
-***
-A list of frequently asked questions
-1. **This is a question in bold**
-Answer to the first question with _italic words_. 
-2. __Second question in bold__ 
-To answer this question, we use an unordered list:
-* First point
-* Second Point
-* Third point
-3. **Third question in bold**
-Answer to the third question with *italic words*.
-4. **Fourth question in bold**
-| Headline 1 in the tablehead | Headline 2 in the tablehead | Headline 3 in the tablehead |
-|:--------------|:-------------:|--------------:|
-| text-align left | text-align center | text-align right |
- Tip
+Check out the issues with the help wanted label. We suggest you look at the closed ones to get a sense of the kinds of issues you can tackle.
+
+
