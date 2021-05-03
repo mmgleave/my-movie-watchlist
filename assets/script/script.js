@@ -428,16 +428,16 @@ var fetchSearchResults = function (searchByTitle) {
 };
 
 fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
-    .then(function (response) {
+    .then(function(response) {
         return response.json();
     })
-    .then(function(response){
-        console.log(response);
+    .then(function(data){
+        console.log(data);
         var responseTrendingEl = document.querySelector('#tmdb-response');
         // Create our <li> element
         var liElement = document.createElement('li');
         // pull data from api
-        liElement.setAttribute(response.data.results[0].assign);
+        liElement.setAttribute(response.data.results[11].original_title);
 
         responseTrendingEl.appendChild(liElement);
     })
