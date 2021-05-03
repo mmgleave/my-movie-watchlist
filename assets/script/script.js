@@ -437,7 +437,7 @@ fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587
         // Create our <li> element
         var liElement = document.createElement('li');
         // pull data from api
-        liElement.setAttribute(response.data.results[11].original_title);
+        liElement.setAttribute(response.data.results[0].original_title);
 
         responseTrendingEl.appendChild(liElement);
     })
