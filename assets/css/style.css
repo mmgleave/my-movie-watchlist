@@ -15,11 +15,12 @@ body {
 }
 
 .header {
-    padding: 50px 30px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    padding: 30px 40px;
     background-image: url("../images/depositphotos_5946788-stock-illustration-film-strip.jpg");
+    background-size: cover;
+    background-position: 80%;
+    background-position: center;
+    background-attachment: fixed;
 }
  
 header p {
@@ -32,17 +33,17 @@ header p {
     color: turquoise;
 }
 
-.searching-movies{
-    font-size: 30px;
-    padding: 15px 15px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-}
 
 .navbar {
-    padding: 30px 55px;
+    padding: 20px 30px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+h1 {
+    font-size: 30px;
+    padding: 5px 17px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
 }

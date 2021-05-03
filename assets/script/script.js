@@ -434,16 +434,20 @@ function render(title, averageVotes, releaseDate) {
 }
 
 fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (json) {
-        //render (title, averageVotes, releaseDate);
-        console.log(json);
-    })
-    .catch(function (error) {
-        console.error(error);
-    });
+
+.then(function(response) {
+    console.log(response);
+    return response.json();
+})
+.then(function(json) {
+    //render (title, averageVotes, releaseDate);
+    console.log(json);
+    console.log(json.results[0].title);
+    console.log(json.results.length);
+})
+.catch(function(error) {
+    console.error(error);
+});
 
 // hide lists and show search when search tab is clicked
 searchTabBtn.addEventListener("click", function () {
