@@ -428,6 +428,7 @@ var fetchSearchResults = function (searchByTitle) {
 };
 
 fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587198656f119cb73f4")
+
     .then(function(response) {
         return response.json();
     })
@@ -444,6 +445,7 @@ fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=f23e2048f00b4587
   .catch(function(error) {
       console.log(error)
   });
+
 
 // hide lists and show search when search tab is clicked
 searchTabBtn.addEventListener("click", function () {
